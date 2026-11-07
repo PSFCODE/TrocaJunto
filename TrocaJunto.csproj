@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <AssemblyName>TrocaJunto</AssemblyName>
+    <RootNamespace>TrocaJunto</RootNamespace>
+    <ApplicationIcon>TrocaJunto.ico</ApplicationIcon>
+
+    <Version>1.0.0</Version>
+    <Product>TrocaJunto</Product>
+    <Company>PSFCODE</Company>
+    <Copyright>Copyright (c) 2026 PSFCODE</Copyright>
+    <Description>O mouse Logitech acompanha o teclado nas teclas Easy-Switch / The Logitech mouse follows the keyboard's Easy-Switch keys</Description>
+    <RepositoryUrl>https://github.com/PSFCODE/TrocaJunto</RepositoryUrl>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="TrocaJunto.ico" LogicalName="TrocaJunto.TrocaJunto.ico" />
+  </ItemGroup>
+
+</Project>

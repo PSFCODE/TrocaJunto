@@ -1,0 +1,39 @@
+# Gera a versão para download a cada tag v* (ex.: git tag v1.0.1 && git push origin v1.0.1).
+# Builds the downloadable release for every v* tag.
+name: Release
+
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Publicar / Publish
+        shell: pwsh
+        run: |
+          $version = '${{ github.ref_name }}'.TrimStart('v')
+          dotnet publish TrocaJunto.csproj -c Release -r win-x64 --self-contained true `
+            -p:PublishSingleFile=true -p:EnableCompressionInSingleFile=true `
+            -p:IncludeNativeLibrariesForSelfExtract=true -p:DebugType=none `
+            -p:Version=$version -o publicar
+          $hash = (Get-FileHash publicar/TrocaJunto.exe -Algorithm SHA256).Hash.ToLower()
+          "$hash  TrocaJunto.exe" | Out-File publicar/TrocaJunto.exe.sha256 -Encoding ascii -NoNewline
+
+      - name: Criar a versão / Create release
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create '${{ github.ref_name }}' publicar/TrocaJunto.exe publicar/TrocaJunto.exe.sha256 `
+            --title 'TrocaJunto ${{ github.ref_name }}' --notes-file .github/release-notes.md
